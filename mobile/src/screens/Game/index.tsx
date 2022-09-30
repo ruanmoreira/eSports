@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
@@ -9,21 +10,33 @@ import { GameParams } from '../../@types/navigation';
 import { styles } from './styles';
 import { THEME } from '../../theme';
 import logoImg from '../../assets/logo-nlw-esports.png'
-import { Background } from '../../components/Background';
+
 import { Heading } from '../../components/Heading';
+import { DuoMatch} from '../../components/DuoMatch';
+import { Background } from '../../components/Background';
 import { DuoCard, DuoCardProps } from '../../components/DuoCard';
-import { useEffect, useState } from 'react';
+import { CheckCircle } from 'phosphor-react-native';
+
+
 
 
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([]);
+  const [discDuoSelected, setDiscDuoSelected] = useState('');
 
 
   const navigation = useNavigation();
   const route = useRoute();
   const game = route.params as GameParams;
+
   function handleGoBack() {
       navigation.goBack();
+  }
+  
+  async function getDiscordUser (adsId: string) {
+    fetch(`http://10.0.0.74:3333/ads/${adsId}/discord`)
+    .then(response => response.json())
+    .then(data => setDiscDuoSelected(data.discord)); 
   }
 
   useEffect(() => {
@@ -67,7 +80,7 @@ export function Game() {
         renderItem = {({ item }) => (
           <DuoCard 
           data = {item}
-          onConnect={() => {}} 
+          onConnect={() => getDiscordUser(item.id)} 
           />
         )}
         horizontal
@@ -81,7 +94,11 @@ export function Game() {
         )}
       />
 
-        
+        <DuoMatch 
+          visible={discDuoSelected.length > 0}
+          discord={discDuoSelected}
+          onClose={() => setDiscDuoSelected('')}
+        />
       </SafeAreaView>
     </Background>
   );
