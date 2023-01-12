@@ -1,5 +1,5 @@
 # 💬 O que é: 
- Consiste em um site e um aplicativo com alguns jogos onde o usuario pode escolher um deles e ver os jogadores disponiveis para jogar junto ou criar um anuncio.
+ Consiste em um site e aplicativo com alguns jogos onde o usuario pode escolher um deles e ver os jogadores disponiveis para jogar junto ou criar um anuncio.
  
 # 🏆 Habilidades adquiridas:
 * Criar API's.
